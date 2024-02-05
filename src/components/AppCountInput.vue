@@ -9,8 +9,7 @@ const updateValue = (value) => emit("update:modelValue", value);
 
 <template>
   <span>
-    <button class="cursor-pointer bg-gray-200 px-2 rounded-l"
-      @click="updateValue(modelValue > 0 ? modelValue - 1 : null)">
+    <button class="update-value-btn" @click="updateValue(modelValue > 0 ? modelValue - 1 : null)">
       -
     </button>
     <input :value="modelValue" type="number" min="0" @input="updateValue" />
@@ -20,7 +19,8 @@ const updateValue = (value) => emit("update:modelValue", value);
   </span>
 </template>
 
-<style scoped>
+<style lang="pcss" scoped>
+
 input[type="number"] {
   appearance: none;
   -moz-appearance: textfield;
@@ -30,5 +30,8 @@ input[type="number"] {
 
 button {
   border: 1px solid gray;
+}
+.update-value-btn {
+  @apply cursor-pointer bg-gray-200 px-2 rounded-l;
 }
 </style>
