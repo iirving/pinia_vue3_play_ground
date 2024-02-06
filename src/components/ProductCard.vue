@@ -4,8 +4,12 @@ import { ref } from "vue";
 import AppCountInput from "./AppCountInput.vue";
 
 // props
+// eslint-disable-next-line no-unused-vars
 const props = defineProps({
-  product: Object,
+  product: {
+    type: Object,
+    default: null
+  },
 });
 
 // emits
