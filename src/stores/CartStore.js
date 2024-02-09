@@ -24,6 +24,12 @@ export const useCartStore = defineStore("CartStore", {
     // for (let index = 0; index < count; index++) {
     //   this.items.push({...item});
     // }
+
+    clearItem(itemName) {
+      this.$patch((state) => {
+        state.items = state.items.filter((item) => item.name !== itemName);
+      });
+    },
   },
   // getters
   getters: {
@@ -37,5 +43,7 @@ export const useCartStore = defineStore("CartStore", {
     // Object.groupBy  > Node 21.0.0 (Released 2023-10-17), or you can use lodash
     grouped: (state) => Object.groupBy(state.items, (item) => item.name),
     groupCount: (state) => (name) => state.grouped[name].length,
+    totalPrice: (state) =>
+      state.items.reduce((total, item) => total + item.price, 0),
   },
 });

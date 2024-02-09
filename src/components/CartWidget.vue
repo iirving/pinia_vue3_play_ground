@@ -1,7 +1,7 @@
 <script setup>
-// imports
 import { ref } from "vue";
 import CartItem from "./CartItem.vue";
+// import { displayAmount } from "../composables/useCurrency.js";
 
 import { useCartStore } from "@/stores/CartStore";
 const cartStore = useCartStore();
@@ -19,14 +19,14 @@ const active = ref(false);
     </span>
     <!-- Modal Overlay only shows when cart is clicked on -->
     <AppModalOverlay :active="active" @close="active = false">
-      <div v-if="!cartStore.isEmpty">
+      <div v-if="cartStore.isNotEmpty">
         <ul class="items-in-cart">
           <CartItem v-for="(items, name) in cartStore.grouped" :key="name" :product="items[0]"
-            :count="cartStore.groupCount(name)" @updateCount="" @clear="" />
+            :count="cartStore.groupCount(name)" @updateCount="" @clear="cartStore.clearItem(name)" />
 
         </ul>
         <div class="flex justify-end text-2xl mb-5">
-          Total: <strong>$40</strong>
+          Total: <strong>${{ cartStore.totalPrice }}</strong>
         </div>
         <div class="flex justify-end">
           <AppButton class="secondary mr-2" @click="cartStore.$reset()">Clear Cart</AppButton>
