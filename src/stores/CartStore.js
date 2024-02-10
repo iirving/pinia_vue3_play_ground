@@ -49,8 +49,3 @@ export const useCartStore = defineStore("CartStore", {
     displayTotalPrice: (state) => useDisplayCurrency(state.totalPrice),
   },
 });
-
-// const displayAmount = function (amount) {
-//   console.log(amount);
-//   return `${currencySymbol}${amount}`;
-// };
