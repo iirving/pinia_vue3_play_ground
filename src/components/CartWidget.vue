@@ -1,11 +1,25 @@
 <script setup>
-import { ref } from "vue";
-import CartItem from "./CartItem.vue";
+import { ref, computed } from "vue";
+import CartItem from "@/components/CartItem.vue";
 import { useCartStore } from "@/stores/CartStore";
 
 const cartStore = useCartStore();
 // data
 const active = ref(false);
+// computed
+// totalPrice hides the complexity of the calculation from the templat
+const totalPrice = computed(() => cartStore.displayTotalPrice)
+
+// methods
+// const updateCount = (name, count) => {
+//   cartStore.updateCount(name, count);
+// };
+const clearItem = (name) => {
+  cartStore.clearItem(name);
+};
+const clearCart = () => {
+  cartStore.$reset();
+};
 </script>
 
 <template>
@@ -20,14 +34,13 @@ const active = ref(false);
       <div v-if="cartStore.isNotEmpty">
         <ul class="items-in-cart">
           <CartItem v-for="(items, name) in cartStore.grouped" :key="name" :product="items[0]"
-            :count="cartStore.groupCount(name)" @updateCount="" @clear="cartStore.clearItem(name)" />
-
+            :count="cartStore.groupCount(name)" @updateCount="" @clear="clearItem(name)" />
         </ul>
         <div class="flex justify-end text-2xl mb-5">
-          Total: <strong>{{ cartStore.displayTotalPrice }}</strong>
+          Total: <strong>{{ totalPrice }}</strong>
         </div>
         <div class="flex justify-end">
-          <AppButton class="secondary mr-2" @click="cartStore.$reset()">Clear Cart</AppButton>
+          <AppButton class="secondary mr-2" @click="clearCart()">Clear Cart</AppButton>
           <AppButton class="primary">Checkout</AppButton>
         </div>
       </div>
