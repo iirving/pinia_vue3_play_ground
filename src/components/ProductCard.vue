@@ -2,6 +2,7 @@
 // imports
 import { ref } from "vue";
 import AppCountInput from "./AppCountInput.vue";
+import useDisplayCurrency from "../composables/useDisplayCurrency.js";
 
 // props
 // eslint-disable-next-line no-unused-vars
@@ -23,7 +24,7 @@ const count = ref(0);
   <li class="card">
     <img :src="`/images/${product.image}`" class="mb-3" width="300" />
     <div>
-      {{ product.name }} - <span class="text-green-500">${{ product.price }}</span>
+      {{ product.name }} - <span class="text-green-500">{{ useDisplayCurrency(product.price) }}</span>
       <div class="text-center m-4">
         <AppCountInput v-model="count" />
       </div>
