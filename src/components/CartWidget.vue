@@ -1,11 +1,9 @@
 <script setup>
 import { ref } from "vue";
 import CartItem from "./CartItem.vue";
-// import { displayAmount } from "../composables/useCurrency.js";
-
 import { useCartStore } from "@/stores/CartStore";
-const cartStore = useCartStore();
 
+const cartStore = useCartStore();
 // data
 const active = ref(false);
 </script>
@@ -26,7 +24,7 @@ const active = ref(false);
 
         </ul>
         <div class="flex justify-end text-2xl mb-5">
-          Total: <strong>${{ cartStore.totalPrice }}</strong>
+          Total: <strong>{{ cartStore.displayTotalPrice }}</strong>
         </div>
         <div class="flex justify-end">
           <AppButton class="secondary mr-2" @click="cartStore.$reset()">Clear Cart</AppButton>

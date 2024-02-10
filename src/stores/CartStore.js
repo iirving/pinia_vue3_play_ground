@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import useDisplayCurrency from "../composables/useDisplayCurrency.js";
 
 export const useCartStore = defineStore("CartStore", {
   // state
@@ -45,5 +46,11 @@ export const useCartStore = defineStore("CartStore", {
     groupCount: (state) => (name) => state.grouped[name].length,
     totalPrice: (state) =>
       state.items.reduce((total, item) => total + item.price, 0),
+    displayTotalPrice: (state) => useDisplayCurrency(state.totalPrice),
   },
 });
+
+// const displayAmount = function (amount) {
+//   console.log(amount);
+//   return `${currencySymbol}${amount}`;
+// };
