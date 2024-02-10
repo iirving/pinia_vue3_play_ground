@@ -4,8 +4,10 @@ import CartItem from "@/components/CartItem.vue";
 import { useCartStore } from "@/stores/CartStore";
 
 const cartStore = useCartStore();
+
 // data
 const active = ref(false);
+
 // computed
 // totalPrice hides the complexity of the calculation from the templat
 const totalPrice = computed(() => cartStore.displayTotalPrice)
