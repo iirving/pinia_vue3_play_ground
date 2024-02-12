@@ -13,9 +13,9 @@ export const useProductStore = defineStore("ProductStore", {
   actions: {
     async fetchProducts() {
       setTimeout(async () => {
-        // Simulate a network request by delaying the response for 1 second
+        // Simulate a network request by delaying the response for 1 second or 1 millisecond
         this.products = (await import("@/data/products.json")).default;
-      }, 1000);
+      }, 1);
     },
   },
   //getters
