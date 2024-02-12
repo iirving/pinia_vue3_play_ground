@@ -26,10 +26,13 @@ export const useCartStore = defineStore("CartStore", {
     //   this.items.push({...item});
     // }
 
+    setItemCount(item, count) {
+      this.clearItem(item.name);
+      this.addItem(count, { ...item });
+    },
+
     clearItem(itemName) {
-      this.$patch((state) => {
-        state.items = state.items.filter((item) => item.name !== itemName);
-      });
+      this.items = this.items.filter((item) => item.name !== itemName);
     },
   },
   // getters
@@ -42,7 +45,13 @@ export const useCartStore = defineStore("CartStore", {
       return !this.isEmpty;
     },
     // Object.groupBy  > Node 21.0.0 (Released 2023-10-17), or you can use lodash
-    grouped: (state) => Object.groupBy(state.items, (item) => item.name),
+    grouped: (state) => {
+      const grouped = Object.groupBy(state.items, (item) => item.name);
+      const sortedKeys = Object.keys(grouped).sort(); // sort by name
+      let inOrder = {};
+      sortedKeys.forEach((key) => (inOrder[key] = grouped[key]));
+      return inOrder;
+    },
     groupCount: (state) => (name) => state.grouped[name].length,
     totalPrice: (state) =>
       state.items.reduce((total, item) => total + item.price, 0),
