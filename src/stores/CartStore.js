@@ -37,8 +37,8 @@ export const useCartStore = defineStore("CartStore", {
   },
   // getters
   getters: {
-    cartCount: (state) => state.items.length,
-    isEmpty: (state) => state.cartCount === 0,
+    count: (state) => state.items.length,
+    isEmpty: (state) => state.count === 0,
     isNotEmpty: (state) => !state.isEmpty,
     // Object.groupBy  > Node 21.0.0 (Released 2023-10-17), or you can use lodash
     grouped: (state) => {
