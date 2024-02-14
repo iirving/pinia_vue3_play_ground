@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import useDisplayCurrency from "../composables/useDisplayCurrency.js";
-
+import { useAuthUserStore } from "../stores/AuthUserStore.js";
 export const useCartStore = defineStore("CartStore", {
   // state
   state: () => {
@@ -33,6 +33,16 @@ export const useCartStore = defineStore("CartStore", {
 
     clearItem(itemName) {
       this.items = this.items.filter((item) => item.name !== itemName);
+    },
+
+    checkOut() {
+      const authStore = useAuthUserStore();
+      const userName = authStore.userName;
+      let count = this.count;
+      let msg = `${userName} just bought ${count} items${
+        count > 1 ? "(s)" : ""
+      } for at total of ${this.totalPrice}`;
+      alert(msg);
     },
   },
   // getters
