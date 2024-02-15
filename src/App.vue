@@ -9,6 +9,34 @@ const cartStore = useCartStore();
 
 productStore.fetchProducts();
 
+//const unsubscribe =
+cartStore.$onAction(({
+  name, // name of the action
+  store, // store instance, same as `someStore`
+  args, // array of parameters passed to the action
+  after, // hook after the action returns or resolves
+  onError, // hook if the action throws or rejects
+}) => {
+  // a shared variable for this specific action call
+  // const startTime = Date.now()
+  // this will trigger before an action on `store` is executed
+  // console.log(`Start "${name}" with params [${args.join(', ')}].`)
+
+  if (name === "addItem") { // only if the addItem action is called
+    console.log("CartStore Action:", name, "CartStore Store:", store, "CartStore Args:", args, "CartStore After:", after);
+    console.log("CartStore OnError:", onError);
+
+    after(() => {
+      console.log("CartStore After Action:", name, args);
+    })
+  }
+});
+
+// manually remove the listener
+// unsubscribe()
+
+
+
 </script>
 
 <template>
