@@ -39,8 +39,8 @@ export const useCartStore = defineStore("CartStore", {
       const authStore = useAuthUserStore();
       const userName = authStore.userName;
       let count = this.count;
-      let msg = `${userName} just bought ${count} items${
-        count > 1 ? "(s)" : ""
+      let msg = `${userName} just bought ${count} ${
+        count > 1 ? "items" : "item"
       } for at total of ${this.totalPrice}`;
       alert(msg);
     },
