@@ -1,4 +1,4 @@
-import { defineStore } from "pinia";
+import { defineStore, acceptHMRUpdate } from "pinia";
 import useDisplayCurrency from "../composables/useDisplayCurrency.js";
 import { useAuthUserStore } from "../stores/AuthUserStore.js";
 export const useCartStore = defineStore("CartStore", {
@@ -64,3 +64,7 @@ export const useCartStore = defineStore("CartStore", {
     displayTotalPrice: (state) => useDisplayCurrency(state.totalPrice),
   },
 });
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(useCartStore, import.meta.hot));
+}
