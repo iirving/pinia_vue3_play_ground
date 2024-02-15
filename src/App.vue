@@ -1,4 +1,5 @@
 <script setup>
+import { ref, reactive } from "vue";
 import TheHeader from "@/components/TheHeader.vue";
 import ProductCard from "@/components/ProductCard.vue";
 import { useProductStore } from "@/stores/ProductStore";
@@ -9,31 +10,60 @@ const cartStore = useCartStore();
 
 productStore.fetchProducts();
 
-//const unsubscribe =
-cartStore.$onAction(({
-  name, // name of the action
-  store, // store instance, same as `someStore`
-  args, // array of parameters passed to the action
-  after, // hook after the action returns or resolves
-  onError, // hook if the action throws or rejects
-}) => {
-  // a shared variable for this specific action call
-  // const startTime = Date.now()
-  // this will trigger before an action on `store` is executed
-  // console.log(`Start "${name}" with params [${args.join(', ')}].`)
+const history = reactive([]);
+history.push(JSON.stringify(cartStore.$state)); // initial state
+cartStore.$subscribe((mutation, state) => {
+  if (!doingHistory.value) {
+    history.push(JSON.stringify(state));
 
-  if (name === "addItem") { // only if the addItem action is called
-    console.log("CartStore Action:", name, "CartStore Store:", store, "CartStore Args:", args, "CartStore After:", after);
-    console.log("CartStore OnError:", onError);
-
-    after(() => {
-      console.log("CartStore After Action:", name, args);
-    })
   }
 });
+const doingHistory = ref(false);
+const future = reactive([]);
+
+const undo = () => {
+  if (history.length === 0) return
+  // console.log("undo")
+  doingHistory.value = true;
+  future.push(history.pop());
+  cartStore.$state = JSON.parse(history.at(- 1));
+  doingHistory.value = false;
+
+};
+const redo = () => {
+  const lastesState = future.pop();
+  if (!lastesState) return
+  doingHistory.value = true;
+  history.push(lastesState);
+  cartStore.$state = JSON.parse(lastesState);
+  doingHistory.value = false;
+};
+
+const unsubscribe =
+  cartStore.$onAction(({
+    name, // name of the action
+    store, // store instance, same as `someStore`
+    args, // array of parameters passed to the action
+    after, // hook after the action returns or resolves
+    onError, // hook if the action throws or rejects
+  }) => {
+    // a shared variable for this specific action call
+    // const startTime = Date.now()
+    // this will trigger before an action on `store` is executed
+    // console.log(`Start "${name}" with params [${args.join(', ')}].`)
+
+    if (name === "addItem") { // only if the addItem action is called
+      console.log("CartStore Action:", name, "CartStore Store:", store, "CartStore Args:", args, "CartStore After:", after);
+      console.log("CartStore OnError:", onError);
+
+      after(() => {
+        console.log("CartStore After Action:", name, args);
+      })
+    }
+  });
 
 // manually remove the listener
-// unsubscribe()
+unsubscribe()
 
 
 
@@ -42,6 +72,10 @@ cartStore.$onAction(({
 <template>
   <div class="container">
     <TheHeader />
+    <div class="mb-5 flex justify-end">
+      <AppButton class="primary" @click="undo">Undo</AppButton>
+      <AppButton class="primary" @click="redo">ReDo</AppButton>
+    </div>
     <ul class="sm:flex flex-wrap lg:flex-nowrap gap-5">
       <ProductCard v-for="product in productStore.products" :key="product.name" :product="product"
         @addToCart="cartStore.addItem($event, product)" />
