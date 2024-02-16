@@ -11,6 +11,7 @@ const active = ref(false);
 // computed
 // totalPrice hides the complexity of the calculation from the templat
 const totalPrice = computed(() => cartStore.displayTotalPrice)
+const count = computed(() => cartStore.count);
 
 // methods
 // const updateCount = (name, count) => {
@@ -22,6 +23,10 @@ const clearItem = (name) => {
 const clearCart = () => {
   cartStore.clear();
 };
+
+const updateCount = (name, count) => {
+  cartStore.setItemCount(name, count);
+};
 </script>
 
 <template>
@@ -29,15 +34,14 @@ const clearCart = () => {
     <!-- Icon that always shows -->
     <span class="cursor-pointer" @click="active = true">
       <fa icon="shopping-cart" size="lg" class="text-gray-700" />
-      <div class="cart-count absolute">{{ cartStore.count }}</div>
+      <div class="cart-count absolute">{{ count }}</div>
     </span>
     <!-- Modal Overlay only shows when cart is clicked on -->
     <AppModalOverlay :active="active" @close="active = false">
       <div v-if="cartStore.isNotEmpty">
         <ul class="items-in-cart">
           <CartItem v-for="(items, name) in cartStore.grouped" :key="name" :product="items[0]"
-            :count="cartStore.groupCount(name)" @updateCount="cartStore.setItemCount(items[0], $event)"
-            @clear="clearItem(name)" />
+            :count="cartStore.groupCount(name)" @updateCount="updateCount(items[0], $event)" @clear="clearItem(name)" />
         </ul>
         <div class="flex justify-end text-2xl mb-5">
           Total: <strong>{{ totalPrice }}</strong>
