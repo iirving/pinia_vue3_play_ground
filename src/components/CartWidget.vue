@@ -20,7 +20,7 @@ const clearItem = (name) => {
   cartStore.clearItem(name);
 };
 const clearCart = () => {
-  cartStore.$reset();
+  cartStore.clear();
 };
 </script>
 

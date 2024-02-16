@@ -1,12 +1,15 @@
 import { defineStore, acceptHMRUpdate } from "pinia";
 import useDisplayCurrency from "../composables/useDisplayCurrency.js";
 import { useAuthUserStore } from "../stores/AuthUserStore.js";
+import { useLocalStorage } from "@vueuse/core";
+
 export const useCartStore = defineStore("CartStore", {
   historyEnabled: true,
   // state
   state: () => {
     return {
       items: [],
+      // items: useLocalStorage("cartStore:items", []), // commented out while refectoring clear action
     };
   },
   // actions
@@ -44,6 +47,10 @@ export const useCartStore = defineStore("CartStore", {
         count > 1 ? "items" : "item"
       } for at total of ${this.totalPrice}`;
       alert(msg);
+    },
+
+    clear() {
+      this.$reset();
     },
   },
   // getters
