@@ -8,8 +8,7 @@ export const useCartStore = defineStore("CartStore", {
   // state
   state: () => {
     return {
-      items: [],
-      // items: useLocalStorage("cartStore:items", []), // commented out while refectoring clear action
+      items: useLocalStorage("cartStore:items", []), // persist cart items in local storage
     };
   },
   // actions
@@ -50,7 +49,7 @@ export const useCartStore = defineStore("CartStore", {
     },
 
     clear() {
-      this.$reset();
+      this.items = [];
     },
   },
   // getters
