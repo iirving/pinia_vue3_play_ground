@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive } from "vue";
+// import { ref, reactive } from "vue";
 import TheHeader from "@/components/TheHeader.vue";
 import ProductCard from "@/components/ProductCard.vue";
 import { useProductStore } from "@/stores/ProductStore";
@@ -9,35 +9,6 @@ const productStore = useProductStore();
 const cartStore = useCartStore();
 
 productStore.fetchProducts();
-
-const history = reactive([]);
-history.push(JSON.stringify(cartStore.$state)); // initial state
-cartStore.$subscribe((mutation, state) => {
-  if (!doingHistory.value) {
-    history.push(JSON.stringify(state));
-    future.splice(0, future.length)
-  }
-});
-const doingHistory = ref(false);
-const future = reactive([]);
-
-const undo = () => {
-  if (history.length === 0) return
-  // console.log("undo")
-  doingHistory.value = true;
-  future.push(history.pop());
-  cartStore.$state = JSON.parse(history.at(- 1));
-  doingHistory.value = false;
-
-};
-const redo = () => {
-  const lastesState = future.pop();
-  if (!lastesState) return
-  doingHistory.value = true;
-  history.push(lastesState);
-  cartStore.$state = JSON.parse(lastesState);
-  doingHistory.value = false;
-};
 
 const unsubscribe =
   cartStore.$onAction(({
@@ -73,8 +44,8 @@ unsubscribe()
   <div class="container">
     <TheHeader />
     <div class="mb-5 flex justify-end">
-      <AppButton class="primary" @click="undo">Undo</AppButton>
-      <AppButton class="primary" @click="redo">ReDo</AppButton>
+      <AppButton class="primary" @click="cartStore.undo">Undo</AppButton>
+      <AppButton class="primary" @click="cartStore.redo">ReDo</AppButton>
     </div>
     <ul class="sm:flex flex-wrap lg:flex-nowrap gap-5">
       <ProductCard v-for="product in productStore.products" :key="product.name" :product="product"

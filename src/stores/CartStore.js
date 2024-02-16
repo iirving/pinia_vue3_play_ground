@@ -2,6 +2,7 @@ import { defineStore, acceptHMRUpdate } from "pinia";
 import useDisplayCurrency from "../composables/useDisplayCurrency.js";
 import { useAuthUserStore } from "../stores/AuthUserStore.js";
 export const useCartStore = defineStore("CartStore", {
+  historyEnabled: true,
   // state
   state: () => {
     return {
