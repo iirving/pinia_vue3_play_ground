@@ -31,7 +31,15 @@ describe("CartStore", () => {
     store.clearItem("item1");
     expect(store.items).toEqual([]);
   });
-  it("checkOut alerts the user with the total price", () => {});
+  it.skip("checkOut alerts the user with the total price", () => {
+    // TODO: figure out how to mock userName = authStore.userName;
+    // TODO: figure out how to mock alert, maybe with --enviroment jsdom ?
+    store.addItem(1, { name: "item1", price: 10 });
+    store.checkOut();
+    expect(window.alert).toHaveBeenCalledWith(
+      "just bought 1 item for at total of 10"
+    );
+  });
   it("clear empties the cart", () => {});
   it("count returns the number of items in the cart", () => {});
   it("isEmpty returns true if the cart is empty", () => {});
