@@ -70,7 +70,13 @@ describe("CartStore", () => {
   });
 
   // getters
-  it("groupCount returns the number of items in each category", () => {});
+  it("groupCount returns the number of items in each category", () => {
+    store.addItem(1, { name: "item1", price: 10 });
+    store.addItem(1, { name: "item2", price: 20 });
+    store.addItem(1, { name: "item1", price: 10 });
+    expect(store.groupCount("item1")).toEqual(2);
+    expect(store.groupCount("item2")).toEqual(1);
+  });
   it("groupTotalPrice returns the total price of each category", () => {});
   it("totalPrice returns the total price of the cart", () => {});
 });
