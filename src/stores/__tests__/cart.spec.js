@@ -26,7 +26,11 @@ describe("CartStore", () => {
       { name: "item1", price: 10 },
     ]);
   });
-  it("clearItem removes an item from the cart", () => {});
+  it("clearItem removes an item from the cart", () => {
+    store.addItem(1, { name: "item1", price: 10 });
+    store.clearItem("item1");
+    expect(store.items).toEqual([]);
+  });
   it("checkOut alerts the user with the total price", () => {});
   it("clear empties the cart", () => {});
   it("count returns the number of items in the cart", () => {});
