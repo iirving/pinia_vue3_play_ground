@@ -40,7 +40,11 @@ describe("CartStore", () => {
       "just bought 1 item for at total of 10"
     );
   });
-  it("clear empties the cart", () => {});
+  it("clear empties the cart", () => {
+    store.addItem(1, { name: "item1", price: 10 });
+    store.clear();
+    expect(store.items).toEqual([]);
+  });
   it("count returns the number of items in the cart", () => {});
   it("isEmpty returns true if the cart is empty", () => {});
   it("isNotEmpty returns true if the cart is not empty", () => {});
