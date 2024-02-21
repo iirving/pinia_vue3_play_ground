@@ -1,40 +1,25 @@
 <script setup>
-import { ref, computed } from "vue";
+import { ref } from "vue";
 import CartItem from "@/components/CartItem.vue";
-import { useCartStore } from "@/stores/CartStore";
+// import { useCartStore } from "@/stores/CartStore";
+import useCart from "@/composables/useCart";
 
-const cartStore = useCartStore();
+// composable functions from useCart
+const { clearItem,
+  clearCart,
+  checkOut,
+  count,
+  groupCount,
+  grouped: groupedCartItems,
+  isNotEmpty,
+  totalPrice,
+  updateCount } = useCart();
+
 
 // data
 const active = ref(false);
 
-// computed
 
-// totalPrice hides the complexity of the calculation from the templat
-const totalPrice = computed(() => cartStore.displayTotalPrice)
-const count = computed(() => cartStore.count);
-
-// methods
-
-const clearItem = (name) => {
-  cartStore.clearItem(name);
-};
-
-const clearCart = () => {
-  cartStore.clear();
-};
-
-const updateCount = (name, count) => {
-  cartStore.setItemCount(name, count);
-};
-
-const checkOut = () => {
-  cartStore.checkOut();
-};
-
-const groupCount = (name) => {
-  return cartStore.groupCount(name);
-};
 </script>
 
 <template>
@@ -46,9 +31,9 @@ const groupCount = (name) => {
     </span>
     <!-- Modal Overlay only shows when cart is clicked on -->
     <AppModalOverlay :active="active" @close="active = false">
-      <div v-if="cartStore.isNotEmpty">
+      <div v-if="isNotEmpty()">
         <ul class="items-in-cart">
-          <CartItem v-for="(items, name) in cartStore.grouped" :key="name" :product="items[0]" :count="groupCount(name)"
+          <CartItem v-for="(items, name) in groupedCartItems()" :key="name" :product="items[0]" :count="groupCount(name)"
             @updateCount="updateCount(items[0], $event)" @clear="clearItem(name)" />
         </ul>
         <div class="flex justify-end text-2xl mb-5">
