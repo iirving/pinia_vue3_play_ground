@@ -45,14 +45,20 @@ export const useCartStore = defineStore("CartStore", {
       this.items = this.items.filter((item) => item.name !== itemName);
     },
 
-    // checkOut function to alert the user with the total price
-    checkOut() {
-      const authStore = useAuthUserStore();
-      const userName = authStore.userName;
+    // checkOutMessage function to return a message number of items and total price
+    checkOutMessage() {
+      // const authStore = useAuthUserStore();
+      // let userName = authStore.userName;
+      let userName = "You";
       let count = this.count;
       let msg = `${userName} just bought ${count} ${
         count > 1 ? "items" : "item"
       } for at total of ${this.totalPrice}`;
+      return msg;
+    },
+    // checkOut function to display number of items and total price
+    checkOut() {
+      let msg = this.checkOutMessage();
       alert(msg);
     },
 
