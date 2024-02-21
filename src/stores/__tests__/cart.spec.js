@@ -45,7 +45,10 @@ describe("CartStore", () => {
     store.clear();
     expect(store.items).toEqual([]);
   });
-  it("count returns the number of items in the cart", () => {});
+  it("count returns the number of items in the cart", () => {
+    store.addItem(1, { name: "item1", price: 10 });
+    expect(store.count).toEqual(1);
+  });
   it("isEmpty returns true if the cart is empty", () => {});
   it("isNotEmpty returns true if the cart is not empty", () => {});
   it("grouped returns the items grouped by category", () => {});
