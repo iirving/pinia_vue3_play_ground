@@ -1,7 +1,6 @@
 <script setup>
 import { ref } from "vue";
 import CartItem from "@/components/CartItem.vue";
-// import { useCartStore } from "@/stores/CartStore";
 import useCart from "@/composables/useCart";
 
 // composable functions from useCart
@@ -14,7 +13,6 @@ const { clearItem,
   isNotEmpty,
   totalPrice,
   updateCount } = useCart();
-
 
 // data
 const active = ref(false);
