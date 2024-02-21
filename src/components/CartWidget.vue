@@ -9,23 +9,31 @@ const cartStore = useCartStore();
 const active = ref(false);
 
 // computed
+
 // totalPrice hides the complexity of the calculation from the templat
 const totalPrice = computed(() => cartStore.displayTotalPrice)
 const count = computed(() => cartStore.count);
 
 // methods
-// const updateCount = (name, count) => {
-//   cartStore.updateCount(name, count);
-// };
+
 const clearItem = (name) => {
   cartStore.clearItem(name);
 };
+
 const clearCart = () => {
   cartStore.clear();
 };
 
 const updateCount = (name, count) => {
   cartStore.setItemCount(name, count);
+};
+
+const checkOut = () => {
+  cartStore.checkOut();
+};
+
+const groupCount = (name) => {
+  return cartStore.groupCount(name);
 };
 </script>
 
@@ -40,15 +48,15 @@ const updateCount = (name, count) => {
     <AppModalOverlay :active="active" @close="active = false">
       <div v-if="cartStore.isNotEmpty">
         <ul class="items-in-cart">
-          <CartItem v-for="(items, name) in cartStore.grouped" :key="name" :product="items[0]"
-            :count="cartStore.groupCount(name)" @updateCount="updateCount(items[0], $event)" @clear="clearItem(name)" />
+          <CartItem v-for="(items, name) in cartStore.grouped" :key="name" :product="items[0]" :count="groupCount(name)"
+            @updateCount="updateCount(items[0], $event)" @clear="clearItem(name)" />
         </ul>
         <div class="flex justify-end text-2xl mb-5">
           Total: <strong>{{ totalPrice }}</strong>
         </div>
         <div class="flex justify-end">
           <AppButton class="secondary mr-2" @click="clearCart">Clear Cart</AppButton>
-          <AppButton class="primary" @click="cartStore.checkOut">Checkout</AppButton>
+          <AppButton class="primary" @click="checkOut()">Checkout</AppButton>
         </div>
       </div>
       <!-- Uncomment and use condition to show when cart is empty -->
