@@ -13,6 +13,8 @@ export const useCartStore = defineStore("CartStore", {
   },
   // actions
   actions: {
+    // addItem function to add item to cart
+    // addItem(1, {name: "item1", price: 10}) will add 1 item to the cart
     addItem(count, item) {
       count = parseInt(count);
       if (isNaN(count) || count <= 0) return;
@@ -29,15 +31,21 @@ export const useCartStore = defineStore("CartStore", {
     //   this.items.push({...item});
     // }
 
+    // setItemCount function to add multiple items at once
+    // setItemCount({name: "item1", price: 10}, 2)
+    // will add 2 items to the cart
     setItemCount(item, count) {
       this.clearItem(item.name);
       this.addItem(count, { ...item });
     },
 
+    // clearItem function to remove item from the cart
+    // clearItem("item1") will remove all items with name "item1"
     clearItem(itemName) {
       this.items = this.items.filter((item) => item.name !== itemName);
     },
 
+    // checkOut function to alert the user with the total price
     checkOut() {
       const authStore = useAuthUserStore();
       const userName = authStore.userName;
@@ -48,6 +56,7 @@ export const useCartStore = defineStore("CartStore", {
       alert(msg);
     },
 
+    // clear function to empty the cart
     clear() {
       this.items = [];
     },
@@ -58,6 +67,7 @@ export const useCartStore = defineStore("CartStore", {
     isEmpty: (state) => state.count === 0,
     isNotEmpty: (state) => !state.isEmpty,
     // Object.groupBy  > Node 21.0.0 (Released 2023-10-17), or you can use lodash
+    // grouped returns the all the items in cart grouped by name
     grouped: (state) => {
       const grouped = Object.groupBy(state.items, (item) => item.name);
       const sortedKeys = Object.keys(grouped).sort(); // sort by name
@@ -65,9 +75,12 @@ export const useCartStore = defineStore("CartStore", {
       sortedKeys.forEach((key) => (inOrder[key] = grouped[key]));
       return inOrder;
     },
+    // groupCount returns the number of items for a given name
     groupCount: (state) => (name) => state.grouped[name].length,
+    // groupTotalPrice returns the total price for all items in the cart
     totalPrice: (state) =>
       state.items.reduce((total, item) => total + item.price, 0),
+    // displayTotalPrice returns the formatted total price
     displayTotalPrice: (state) => useDisplayCurrency(state.totalPrice),
   },
 });
