@@ -56,7 +56,18 @@ describe("CartStore", () => {
     store.addItem(1, { name: "item1", price: 10 });
     expect(store.isNotEmpty).toEqual(true);
   });
-  it("grouped returns the items grouped by category", () => {});
+  it("grouped returns the items grouped by category", () => {
+    store.addItem(1, { name: "item1", price: 10 });
+    store.addItem(1, { name: "item2", price: 20 });
+    store.addItem(1, { name: "item1", price: 10 });
+    expect(store.grouped).toEqual({
+      item1: [
+        { name: "item1", price: 10 },
+        { name: "item1", price: 10 },
+      ],
+      item2: [{ name: "item2", price: 20 }],
+    });
+  });
 
   // getters
   it("groupCount returns the number of items in each category", () => {});
