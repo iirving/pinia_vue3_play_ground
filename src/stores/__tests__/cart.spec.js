@@ -1,14 +1,24 @@
-import { describe, it, expect, beforeEach } from "vitest";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 import { setActivePinia, createPinia } from "pinia";
 
 import { useCartStore } from "/src/stores/CartStore.js";
+import { useAuthUserStore } from "/src/stores/AuthUserStore.js";
 
 describe("CartStore", () => {
   let store = null;
+  let authStore = null;
 
   beforeEach(() => {
     setActivePinia(createPinia());
     store = useCartStore();
+    authStore = useAuthUserStore();
+    // vi.mock("authStore", () => {
+    //   return {
+    //     state: {
+    //       userName: vi.fn(),
+    //     },
+    //   };
+    // });
   });
 
   it("the store is initialized with an empty cart", () => {
@@ -32,18 +42,20 @@ describe("CartStore", () => {
     expect(store.items).toEqual([]);
   });
   it("checkOutMessage returns a message with the number of items and the total price", () => {
+    const getAuthStoreUserName = authStore.userName;
     store.addItem(1, { name: "item1", price: 10 });
     expect(store.checkOutMessage()).toEqual(
-      "You just bought 1 item for at total of 10"
+      `${getAuthStoreUserName} just bought 1 item for at total of 10`
     );
   });
   it.skip("checkOut alerts the user with the total price", () => {
     // TODO: figure out how to mock userName = authStore.userName;
     // TODO: figure out how to mock alert, maybe with --enviroment jsdom ?
+    const getAuthStoreUserName = authStore.userName;
     store.addItem(1, { name: "item1", price: 10 });
     store.checkOut();
     expect(window.alert).toHaveBeenCalledWith(
-      "just bought 1 item for at total of 10"
+      `${getAuthStoreUserName} just bought 1 item for at total of 10`
     );
   });
   it("clear empties the cart", () => {

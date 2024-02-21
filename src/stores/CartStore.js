@@ -47,9 +47,8 @@ export const useCartStore = defineStore("CartStore", {
 
     // checkOutMessage function to return a message number of items and total price
     checkOutMessage() {
-      // const authStore = useAuthUserStore();
-      // let userName = authStore.userName;
-      let userName = "You";
+      const authStore = useAuthUserStore();
+      let userName = authStore.userName;
       let count = this.count;
       let msg = `${userName} just bought ${count} ${
         count > 1 ? "items" : "item"
