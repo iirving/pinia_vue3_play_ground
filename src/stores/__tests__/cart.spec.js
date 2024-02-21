@@ -77,6 +77,6 @@ describe("CartStore", () => {
     expect(store.groupCount("item1")).toEqual(2);
     expect(store.groupCount("item2")).toEqual(1);
   });
-  it("groupTotalPrice returns the total price of each category", () => {});
+
   it("totalPrice returns the total price of the cart", () => {});
 });
