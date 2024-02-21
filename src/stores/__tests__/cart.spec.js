@@ -78,5 +78,16 @@ describe("CartStore", () => {
     expect(store.groupCount("item2")).toEqual(1);
   });
 
-  it("totalPrice returns the total price of the cart", () => {});
+  it("totalPrice returns the total price of the cart", () => {
+    store.addItem(1, { name: "item1", price: 10 });
+    store.addItem(1, { name: "item2", price: 20 });
+    store.addItem(1, { name: "item1", price: 10 });
+    expect(store.totalPrice).toEqual(40);
+  });
+  it("displayTotalPrice returns the formatted total price", () => {
+    store.addItem(1, { name: "item1", price: 10 });
+    store.addItem(1, { name: "item2", price: 20 });
+    store.addItem(1, { name: "item1", price: 10 });
+    expect(store.displayTotalPrice).toEqual("$40");
+  });
 });
