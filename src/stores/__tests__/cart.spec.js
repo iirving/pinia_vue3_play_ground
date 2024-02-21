@@ -16,9 +16,16 @@ describe("CartStore", () => {
   });
   it("addItem adds an item to the cart", () => {
     store.addItem(1, { name: "item1", price: 10 });
-    expect(store.items).toEqual([{ name: "item1", price: 11 }]);
+    expect(store.items).toEqual([{ name: "item1", price: 10 }]);
   });
-  it("setItemCount sets the count of an item in the cart", () => {});
+  it("setItemCount sets the count of an item in the cart", () => {
+    store.addItem(1, { name: "item1", price: 10 });
+    store.setItemCount({ name: "item1", price: 10 }, 2);
+    expect(store.items).toEqual([
+      { name: "item1", price: 10 },
+      { name: "item1", price: 10 },
+    ]);
+  });
   it("clearItem removes an item from the cart", () => {});
   it("checkOut alerts the user with the total price", () => {});
   it("clear empties the cart", () => {});
