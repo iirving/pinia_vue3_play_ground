@@ -7,10 +7,10 @@ import useCart from "@/composables/useCart";
 const { clearItem,
   clearCart,
   checkOut,
-  count,
+  count: cartCount,
   groupCount,
   grouped: groupedCartItems,
-  isNotEmpty,
+  isNotEmpty: cartIsNotEmpty,
   totalPrice,
   updateCount } = useCart();
 
@@ -25,11 +25,11 @@ const active = ref(false);
     <!-- Icon that always shows -->
     <span class="cursor-pointer" @click="active = true">
       <fa icon="shopping-cart" size="lg" class="text-gray-700" />
-      <div class="cart-count absolute">{{ count }}</div>
+      <div class="cart-count absolute">{{ cartCount }}</div>
     </span>
     <!-- Modal Overlay only shows when cart is clicked on -->
     <AppModalOverlay :active="active" @close="active = false">
-      <div v-if="isNotEmpty()">
+      <div v-if="cartIsNotEmpty()">
         <ul class="items-in-cart">
           <CartItem v-for="(items, name) in groupedCartItems()" :key="name" :product="items[0]" :count="groupCount(name)"
             @updateCount="updateCount(items[0], $event)" @clear="clearItem(name)" />
