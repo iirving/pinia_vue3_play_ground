@@ -31,6 +31,12 @@ describe("CartStore", () => {
     store.clearItem("item1");
     expect(store.items).toEqual([]);
   });
+  it("checkOutMessage returns a message with the number of items and the total price", () => {
+    store.addItem(1, { name: "item1", price: 10 });
+    expect(store.checkOutMessage()).toEqual(
+      "You just bought 1 item for at total of 10"
+    );
+  });
   it.skip("checkOut alerts the user with the total price", () => {
     // TODO: figure out how to mock userName = authStore.userName;
     // TODO: figure out how to mock alert, maybe with --enviroment jsdom ?
