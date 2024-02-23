@@ -1,8 +1,15 @@
-import { describe, it, expect, beforeEach, vi } from "vitest";
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { setActivePinia, createPinia } from "pinia";
 
 import { useCartStore } from "/src/stores/CartStore.js";
 import { useAuthUserStore } from "/src/stores/AuthUserStore.js";
+
+vi.mock("/src/stores/AuthUserStore.js", async (importOriginal) => {
+  const actual = await importOriginal();
+  return {
+    ...actual,
+  };
+});
 
 describe("CartStore", () => {
   let store = null;
@@ -12,13 +19,15 @@ describe("CartStore", () => {
     setActivePinia(createPinia());
     store = useCartStore();
     authStore = useAuthUserStore();
-    // vi.mock("authStore", () => {
-    //   return {
-    //     state: {
-    //       userName: vi.fn(),
-    //     },
-    //   };
-    // });
+
+    // mock the authStore.getUserName method
+    authStore.getUserName = vi.fn(() => {
+      return "John Doe fake Name";
+    });
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   it("the store is initialized with an empty cart", () => {
@@ -42,7 +51,7 @@ describe("CartStore", () => {
     expect(store.items).toEqual([]);
   });
   it("checkOutMessage returns a message with the number of items and the total price", () => {
-    const getAuthStoreUserName = authStore.userName;
+    const getAuthStoreUserName = authStore.getUserName();
     store.addItem(1, { name: "item1", price: 10 });
     expect(store.checkOutMessage()).toEqual(
       `${getAuthStoreUserName} just bought 1 item for at total of 10`

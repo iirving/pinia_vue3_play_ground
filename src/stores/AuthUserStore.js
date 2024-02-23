@@ -4,16 +4,19 @@ export const useAuthUserStore = defineStore("AuthUserStore", {
   // state
   state: () => {
     return {
-      userName: "Ian_Irving",
+      userName: "Ian_Irving", // default user
     };
   },
   // actions
   actions: {
     setUser(user) {
-      this.user = user;
+      this.userName = user;
     },
     clearUser() {
-      this.user = null;
+      this.userName = null;
+    },
+    getUserName() {
+      return this.userName;
     },
   },
   // getters
