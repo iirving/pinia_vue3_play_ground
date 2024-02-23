@@ -6,6 +6,5 @@ export default function useDisplayCurrency(amount) {
     const defaultCurrencySymbol = "$";
     return defaultCurrencySymbol;
   };
-
-  return `${getCurrencySymbol()}${amount}`;
+  return `${getCurrencySymbol()}${amount.toFixed(2)}`;
 }
