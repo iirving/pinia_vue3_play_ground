@@ -1,12 +1,15 @@
 import { computed } from "vue";
 import { useCartStore } from "@/stores/CartStore";
+import useDisplayCurrency from "../composables/useDisplayCurrency.js";
 
 export default function useCart() {
   const cartStore = useCartStore();
 
-  // totalPrice hides the complexity of the calculation from the templat
-  const totalPrice = computed(() => cartStore.displayTotalPrice);
   const count = computed(() => cartStore.count);
+
+  // totalPrice hides the complexity of the calculation from the template and
+  // returns the total price in the display currency format with the currency symbol
+  const totalPrice = computed(() => useDisplayCurrency(cartStore.totalPrice));
 
   // methods
 

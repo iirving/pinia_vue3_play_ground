@@ -1,5 +1,4 @@
 import { defineStore, acceptHMRUpdate } from "pinia";
-import useDisplayCurrency from "../composables/useDisplayCurrency.js";
 import { useAuthUserStore } from "../stores/AuthUserStore.js";
 import { useLocalStorage } from "@vueuse/core";
 
@@ -85,8 +84,6 @@ export const useCartStore = defineStore("CartStore", {
     // groupTotalPrice returns the total price for all items in the cart
     totalPrice: (state) =>
       state.items.reduce((total, item) => total + item.price, 0),
-    // displayTotalPrice returns the formatted total price
-    displayTotalPrice: (state) => useDisplayCurrency(state.totalPrice),
   },
 });
 
