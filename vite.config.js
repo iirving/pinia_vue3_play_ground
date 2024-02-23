@@ -10,4 +10,9 @@ export default defineConfig({
     },
   },
   plugins: [vue()],
+  test: {
+    coverage: {
+      reporter: ["text", "html"],
+    },
+  },
 });
