@@ -4,11 +4,9 @@ import { setActivePinia, createPinia } from "pinia";
 import { useCartStore } from "/src/stores/CartStore.js";
 import { useAuthUserStore } from "/src/stores/AuthUserStore.js";
 
-vi.mock("/src/stores/AuthUserStore.js", async (importOriginal) => {
-  const actual = await importOriginal();
-  return {
-    ...actual,
-  };
+// mock the AuthUserStore to return a fake user name
+vi.mock("/src/stores/AuthUserStore.js", async () => {
+  return { useAuthUserStore: () => ({ getUserName: () => "John Doe" }) };
 });
 
 describe("CartStore", () => {
@@ -19,11 +17,6 @@ describe("CartStore", () => {
     setActivePinia(createPinia());
     store = useCartStore();
     authStore = useAuthUserStore();
-
-    // mock the authStore.getUserName method
-    authStore.getUserName = vi.fn(() => {
-      return "John Doe fake Name";
-    });
   });
 
   afterEach(() => {
