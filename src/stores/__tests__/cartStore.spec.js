@@ -4,7 +4,7 @@ import { setActivePinia, createPinia } from "pinia";
 import { useCartStore } from "/src/stores/CartStore.js";
 import { useAuthUserStore } from "/src/stores/AuthUserStore.js";
 
-// mock the AuthUserStore to return a fake user name
+// stub the AuthUserStore to return a fake user name, which is the only thing we use from it
 vi.mock("/src/stores/AuthUserStore.js", async () => {
   return { useAuthUserStore: () => ({ getUserName: () => "John Doe" }) };
 });
