@@ -31,8 +31,8 @@ const active = ref(false);
     <AppModalOverlay :active="active" @close="active = false">
       <div v-if="cartIsNotEmpty()">
         <ul class="items-in-cart">
-          <CartItem v-for="(items, name) in groupedCartItems()" :key="name" :product="items[0]" :count="groupCount(name)"
-            @updateCount="updateCount(items[0], $event)" @clear="clearItem(name)" />
+          <CartItem v-for="(items, name) in groupedCartItems()" :key="name" :product="items[0]"
+            :count="groupCount(name)" @updateCount="updateCount(items[0], $event)" @clear="clearItem(name)" />
         </ul>
         <div class="flex justify-end text-2xl mb-5">
           Total: <strong>{{ totalPrice }}</strong>
